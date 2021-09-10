@@ -11,10 +11,10 @@ dotenv
 node.js
 
 ## Demo Video Link
-
+https://drive.google.com/file/d/1TM4Mg0rf0QYjmcbINs-fW1uQGpTdlGZX/view
 
 ## Github Link
-
+https://github.com/thomascupchurch/fantastic-umbrella
 
 ## Screenshot
 ![screenshot](./assets/screenshot.png)
