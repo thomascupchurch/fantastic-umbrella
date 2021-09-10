@@ -9,9 +9,9 @@ router.get('/', (req, res) => {
   // be sure to include its associated Products
   Category.findAll({
     attributes: [
-      'id',
+      // 'id',
       'category_name',
-      [sequelize.literal(`(SELECT * FROM category)`)]
+      // [sequelize.literal(`(SELECT * FROM category)`), 'category_list']
     ],
     include: [
       {
@@ -32,7 +32,7 @@ router.get('/:id', (req, res) => {
   // be sure to include its associated Products
   Category.findOne({
     where: {
-      category: req.params.id
+      id: req.params.id
     },
     attributes: [
       'id',
@@ -42,25 +42,60 @@ router.get('/:id', (req, res) => {
       {
         model: Product,
         attributes: ['id', 'product_name', 'price', 'stock', 'category_id'],
-        // include: {
-        //   model: User,
-        //   attributes: ['username']
-        // }
       }
     ]
   })
+  .then(dbCategoryData => res.json(dbCategoryData))
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
+
 
 router.post('/', (req, res) => {
   // create a new category
+  Category.create({
+    category_name: req.body.category_name
+  })
+  .then(dbPostData => res.json(dbPostData))
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  });
 });
 
 router.put('/:id', (req, res) => {
   // update a category by its `id` value
+  Category.update(
+  {
+    category_name: req.body.category_name
+  },
+  {
+    where: {
+      id: req.params.id
+    }
+  })
+  .then(dbPostData => res.json(dbPostData))
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  });
 });
 
 router.delete('/:id', (req, res) => {
   // delete a category by its `id` value
+  Category.destroy({
+      where: {
+        id: req.params.id
+      }
+  })
+  .then(dbPostData => res.json(dbPostData))
+  .catch(err => {
+    console.log(err);
+    res.status(500).json(err);
+  });
 });
+
 
 module.exports = router;
